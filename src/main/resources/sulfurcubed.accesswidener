@@ -1,0 +1,4 @@
+accessWidener v2 official
+
+accessible method net/minecraft/world/entity/SulfurCubeArchetypes archetype (FFFF)Ljava/util/List;
+accessible field net/minecraft/world/entity/SulfurCubeArchetype$AttributeEntry attribute Lnet/minecraft/core/Holder;

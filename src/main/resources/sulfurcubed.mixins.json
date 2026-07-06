@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.justmili.sulfurcubed.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PreventBarrierDrop",
+    "PreventBarrierPickup"
+  ],
+  "client": [
+    "client.HudModifier"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
