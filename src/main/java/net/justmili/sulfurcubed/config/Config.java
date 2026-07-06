@@ -18,7 +18,7 @@ public class Config {
             .define("disableArmor", false);
 
         addModifierMultiplier = builder.comment("Additional multiplier of each applied attribute modifier value")
-            .define("addModifierMultiplier", 1.0, 0.1, Double.MAX_VALUE);
+            .define("addModifierMultiplier", 0.0, 0.0, 255.0);
 
         builder.build();
     }

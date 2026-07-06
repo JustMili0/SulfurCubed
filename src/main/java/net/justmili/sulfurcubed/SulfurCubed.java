@@ -13,7 +13,6 @@ public class SulfurCubed implements ModInitializer {
     @Override
     public void onInitialize() {
         Config.register();
-
         EventRegistry.registerServer();
     }
 

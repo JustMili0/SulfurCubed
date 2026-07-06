@@ -29,10 +29,22 @@ public class ManageInventory {
     // Lock all slots (except hotbar middle, offhand and armor are configurable)
     public static void onPlayerTick(ServerPlayer player) {
         Inventory inv = player.getInventory();
-        int size = inv.getNonEquipmentItems().size(); // hotbar + rest of inventory
+        int size = inv.getNonEquipmentItems().size();
 
+        // Limit main hand (slot 4) to a single item
+        ItemStack mainHand = inv.getItem(4);
+        if (!mainHand.isEmpty() && mainHand.getCount() > 1 && mainHand.getMaxStackSize() > 1) {
+            ItemStack excess = mainHand.copy();
+            excess.setCount(mainHand.getCount() - 1);
+            player.drop(excess, true);
+
+            mainHand.setCount(1);
+            inv.setChanged();
+        }
+
+        // Drop anything from other slots
         for (int slot = 0; slot < size; slot++) {
-            if (slot == 4) continue; // keep the selected middle slot free
+            if (slot == 4) continue;
 
             ItemStack current = inv.getItem(slot);
             if (LockSlots.isSlotLocked(current)) continue;
@@ -47,15 +59,18 @@ public class ManageInventory {
             inv.setChanged();
         }
 
+        // Drop everything from offhand if enabled
         if (Config.disableOffhand.get()) {
             ItemStack offhand = player.getItemBySlot(EquipmentSlot.OFFHAND);
 
-            if (!LockSlots.isSlotLocked(offhand)) {
-                if (!offhand.isEmpty()) player.drop(offhand.copy(), true);
+            if (!LockSlots.isSlotLocked(offhand) && !offhand.isEmpty()) {
+                player.drop(offhand.copy(), true);
+                player.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
                 inv.setChanged();
             }
         }
 
+        // Drop all armor if enabled
         if (Config.disableArmor.get()) {
             for (EquipmentSlot armorSlot : new EquipmentSlot[]{
                 EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
@@ -64,6 +79,7 @@ public class ManageInventory {
 
                 if (!LockSlots.isSlotLocked(armor) && !armor.isEmpty()) {
                     player.drop(armor.copy(), true);
+                    player.setItemSlot(armorSlot, ItemStack.EMPTY);
                     inv.setChanged();
                 }
             }
