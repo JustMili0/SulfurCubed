@@ -21,4 +21,4 @@ if you'd like an extra challange.
 ## Notice
 Sulfur Cubed was not made for stuff like your survival world or big modpack and stuff like that.<br>
 This mod is supposed to be more for shortly trying it out alone or with friends, having some fun and laughs and that's it.<br>
-**This mod also modifies vanilla GUI textures and the Barrier item texture!**
+This mod also modifies vanilla GUI textures and the Barrier item texture for the "only one item at a time" feature.

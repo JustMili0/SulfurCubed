@@ -39,6 +39,7 @@ public class ManageInventory {
             player.drop(excess, true);
 
             mainHand.setCount(1);
+            inv.setItem(4, mainHand);
             inv.setChanged();
         }
 

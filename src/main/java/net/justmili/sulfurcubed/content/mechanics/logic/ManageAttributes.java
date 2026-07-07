@@ -4,9 +4,7 @@ import net.justmili.sulfurcubed.SulfurCubed;
 import net.justmili.sulfurcubed.config.Config;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.SulfurCubeArchetype;
 import net.minecraft.world.entity.SulfurCubeArchetypes;
@@ -16,36 +14,22 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Optional;
+
 public class ManageAttributes {
     public static void onPlayerTick(ServerPlayer player) {
         ItemStack held = player.getMainHandItem();
 
         double speed, bounce, friction, drag;
-        SulfurCubeArchetype archetype;
+        var registry = player.level().registryAccess();
+        Optional<SulfurCubeArchetype> archetype = registry.lookupOrThrow(Registries.SULFUR_CUBE_ARCHETYPE).stream()
+            .filter(arch -> held.is(arch.items())).findFirst();
+        SulfurCubeArchetype regular = registry.getOrThrow(SulfurCubeArchetypes.REGULAR).value();
 
-        ResourceKey<SulfurCubeArchetype> archetypeKey = switch (held) {
-            case ItemStack _ when held.is(ItemTags.SULFUR_CUBE_ARCHETYPE_REGULAR) -> SulfurCubeArchetypes.REGULAR;
-            case ItemStack _ when held.is(ItemTags.SULFUR_CUBE_ARCHETYPE_BOUNCY) -> SulfurCubeArchetypes.BOUNCY;
-            case ItemStack _ when held.is(ItemTags.SULFUR_CUBE_ARCHETYPE_SLOW_BOUNCY) -> SulfurCubeArchetypes.SLOW_BOUNCY;
-            case ItemStack _ when held.is(ItemTags.SULFUR_CUBE_ARCHETYPE_SLOW_FLAT) -> SulfurCubeArchetypes.SLOW_FLAT;
-            case ItemStack _ when held.is(ItemTags.SULFUR_CUBE_ARCHETYPE_FAST_FLAT) -> SulfurCubeArchetypes.FAST_FLAT;
-            case ItemStack _ when held.is(ItemTags.SULFUR_CUBE_ARCHETYPE_LIGHT) -> SulfurCubeArchetypes.LIGHT;
-            case ItemStack _ when held.is(ItemTags.SULFUR_CUBE_ARCHETYPE_FAST_SLIDING) -> SulfurCubeArchetypes.FAST_SLIDING;
-            case ItemStack _ when held.is(ItemTags.SULFUR_CUBE_ARCHETYPE_SLOW_SLIDING) -> SulfurCubeArchetypes.SLOW_SLIDING;
-            default -> SulfurCubeArchetypes.REGULAR; // Default for anything else
-        };
-
-        try {
-            archetype = player.level().registryAccess().lookupOrThrow(Registries.SULFUR_CUBE_ARCHETYPE).getOrThrow(archetypeKey).value();
-        } catch (Exception e) {
-            SulfurCubed.LOGGER.error("Could not lookup Sulfur Cube Archetype.", e);
-            return;
-        }
-
-        speed = getSpeed(archetype);
-        bounce = getBounce(archetype);
-        friction = getFriction(archetype);
-        drag = getDrag(archetype);
+        speed = getSpeed(archetype.orElse(regular));
+        bounce = getBounce(archetype.orElse(regular));
+        friction = getFriction(archetype.orElse(regular));
+        drag = getDrag(archetype.orElse(regular));
 
         applyModifiers(player, speed, bounce, friction, drag);
     }

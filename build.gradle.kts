@@ -11,16 +11,12 @@ base {
 repositories {
     maven("https://maven.terraformersmc.com/") // Mod Menu
     maven("https://maven.caffeinemc.net/releases") // Sodium API
-    maven("https://maven.bawnorton.com/releases") // MixinSqured
-    maven("https://maven.enjarai.dev/mirrors") // MixinSqured
 }
 
 dependencies {
     minecraft(libs.minecraft.get())
     implementation(libs.fabric.loader.get())
     implementation(libs.fabric.api.get())
-
-    //include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${libs.versions.mixinsquared.get()}")))
 
     // https://maven.caffeinemc.net/#/releases/net/caffeinemc/sodium-fabric-api
     compileOnly("net.caffeinemc:sodium-fabric-api:${rootProject.property("sodium")}+mc${mcVersion}")
