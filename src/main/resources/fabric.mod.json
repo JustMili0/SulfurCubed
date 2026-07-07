@@ -8,7 +8,7 @@
   "contact": {
     "sources": "https://github.com/JustMili0/SulfurCubed",
     "issues": "https://github.com/JustMili0/SulfurCubed/issues",
-    "homepage": "https://modrinth.com/mod/sulfur-subed"
+    "homepage": "https://modrinth.com/mod/sulfur-cubed"
   },
   "license": "${mod_license}",
   "icon": "icon.png",
@@ -32,7 +32,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.modrinth": "https://modrinth.com/mod/sulfur-subed",
+        "modmenu.modrinth": "https://modrinth.com/mod/sulfur-cubed",
         "modmenu.discord": "https://discord.gg/DPEw9DU2vT",
         "modmenu.kofi": "https://ko-fi.com/justmilivt",
         "modmenu.twitter": "https://x.com/JustMiliVT"
