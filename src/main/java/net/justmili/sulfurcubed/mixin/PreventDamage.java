@@ -6,6 +6,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -13,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Player.class)
 public abstract class PreventDamage {
     @Inject(method = "actuallyHurt", at = @At("HEAD"), cancellable = true)
-    private void sulfurcubed$zeroDamage(ServerLevel level, DamageSource source, float dmg, CallbackInfo ci) {
+    private void cancelDamageOnly(ServerLevel level, DamageSource source, float dmg, CallbackInfo ci) {
         Player self = (Player)(Object)this;
         if (!(self instanceof ServerPlayer player)) return;
         if (player.getInventory().getItem(4).isEmpty()) return;
@@ -23,6 +24,7 @@ public abstract class PreventDamage {
         }
     }
 
+    @Unique
     private static boolean isImmuneSource(DamageSource source) {
         return source.is(DamageTypes.FALL)
             || source.is(DamageTypes.FALLING_BLOCK)

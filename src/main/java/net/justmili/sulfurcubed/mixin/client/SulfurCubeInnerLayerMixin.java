@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class SulfurCubeInnerLayerMixin {
 
     @Inject(method = "submit*", at = @At("HEAD"), cancellable = true)
-    private void sulfurcubed$hideWhenHoldingItem(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords,
+    private void hideWhenHoldingItem(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords,
                                                  SulfurCubeRenderState state, float yRot, float xRot, CallbackInfo ci) {
         if (!state.headItem.isEmpty()) ci.cancel();
     }

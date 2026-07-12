@@ -21,10 +21,11 @@ public class SCHeldItem extends RenderLayer<SulfurCubeRenderState, SulfurCubeMod
 
         int overlayCoords = LivingEntityRenderer.getOverlayCoords(state, 0.0f);
 
+        // Non-block item renderer
         poseStack.pushPose();
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0f));
-        poseStack.translate(0.0f, 0.0f, 0.0f);
-        poseStack.scale(1.95f, 1.95f, 1.95f);
+        poseStack.mulPose(Axis.XN.rotationDegrees(45.0f));
+        poseStack.scale(1.0f, 1.0f, 1.0f);
         state.headItem.submit(poseStack, submitNodeCollector, state.lightCoords, overlayCoords, state.outlineColor);
         poseStack.popPose();
     }

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SulfurCubeRendererMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void sulfurcubed$addHeldItemLayer(EntityRendererProvider.Context context, CallbackInfo ci) {
+    private void addHeldItemLayer(EntityRendererProvider.Context context, CallbackInfo ci) {
         ((SulfurCubeRenderer) (Object) this).addLayer(new SCHeldItem((RenderLayerParent<SulfurCubeRenderState, SulfurCubeModel>) this));
     }
 }
