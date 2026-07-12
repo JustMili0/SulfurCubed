@@ -61,7 +61,7 @@ public class ManageInventory {
         }
 
         // Drop everything from offhand if enabled
-        if (Config.disableOffhand.get()) {
+        if (Config.getDisableOffhand()) {
             ItemStack offhand = player.getItemBySlot(EquipmentSlot.OFFHAND);
 
             if (!LockSlots.isSlotLocked(offhand) && !offhand.isEmpty()) {
@@ -72,7 +72,7 @@ public class ManageInventory {
         }
 
         // Drop all armor if enabled
-        if (Config.disableArmor.get()) {
+        if (Config.getDisableArmor()) {
             for (EquipmentSlot armorSlot : new EquipmentSlot[]{
                 EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
             }) {

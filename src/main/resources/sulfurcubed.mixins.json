@@ -4,12 +4,16 @@
   "package": "net.justmili.sulfurcubed.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ModifyPlayerHitbox",
     "PreventBarrierDrop",
     "PreventBarrierPickup",
     "PreventDamage"
   ],
   "client": [
-    "client.HudModifier"
+    "client.HudModifier",
+    "client.SulfurCubeInnerLayerMixin",
+    "client.SulfurCubeRendererMixin",
+    "client.SwapRenderers"
   ],
   "injectors": {
     "defaultRequire": 1

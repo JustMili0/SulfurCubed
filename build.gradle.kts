@@ -8,6 +8,10 @@ base {
     archivesName.set("${rootProject.property("archives_base_name")}-${rootProject.property("mod_version")}+mc${mcVersion}-Fabric")
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/${rootProject.property("mod_id")}.accesswidener")
+}
+
 repositories {
     maven("https://maven.terraformersmc.com/") // Mod Menu
     maven("https://maven.caffeinemc.net/releases") // Sodium API
