@@ -42,20 +42,23 @@ public class ManageAttributes {
             modBounce = createModifier("bounciness", bounce, ADD_VALUE),
             modFriction = createModifier("friction", friction, ADD_MULTI_TOTAL),
             modAirDrag = createModifier("air_drag", drag, ADD_MULTI_TOTAL),
-            modCamera = createModifier("camera_distance", 2, ADD_VALUE);
+            modScale = createModifier("scale", -0.4556, ADD_MULTI_TOTAL),
+            modCamera = createModifier("camera_distance", 4, ADD_VALUE);
         AttributeInstance
             instSpeed = player.getAttribute(Attributes.KNOCKBACK_RESISTANCE),
             instBounce = player.getAttribute(Attributes.BOUNCINESS),
             instFriction = player.getAttribute(Attributes.FRICTION_MODIFIER),
             instAirDrag = player.getAttribute(Attributes.AIR_DRAG_MODIFIER),
+            instScale = player.getAttribute(Attributes.SCALE),
             instCamera = player.getAttribute(Attributes.CAMERA_DISTANCE);
 
-        if (instSpeed == null || instBounce == null || instFriction == null || instAirDrag == null || instCamera == null) return;
+        if (instSpeed == null || instBounce == null || instFriction == null || instAirDrag == null || instScale == null || instCamera == null) return;
 
         applyOrUpdate(instSpeed, modSpeed);
         applyOrUpdate(instBounce, modBounce);
         applyOrUpdate(instFriction, modFriction);
         applyOrUpdate(instAirDrag, modAirDrag);
+        if (!Config.shouldTransform()) applyOrUpdate(instScale, modScale);
         applyOrUpdate(instCamera, modCamera);
 
         if (player.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() || player.isCreative() || player.isSpectator()) {
@@ -63,7 +66,7 @@ public class ManageAttributes {
             instBounce.removeModifier(modBounce);
             instFriction.removeModifier(modFriction);
             instAirDrag.removeModifier(modAirDrag);
-            // Don't remove camera
+            // Don't remove scale and camera
         }
     }
     private static AttributeModifier createModifier(String id, double value, AttributeModifier.Operation operation) {
