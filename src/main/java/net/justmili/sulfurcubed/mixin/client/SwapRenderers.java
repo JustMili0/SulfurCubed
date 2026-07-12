@@ -28,7 +28,7 @@ public class SwapRenderers {
     @ModifyReturnValue(method = "extractEntity", at = @At("RETURN"))
     private EntityRenderState swapExtractedState(EntityRenderState originalState, Entity entity, float partialTicks) {
         if (!(entity instanceof AbstractClientPlayer player) || !(originalState instanceof AvatarRenderState)) return originalState;
-        if (!Config.getShouldTransform()) return originalState;
+        if (!Config.shouldTransform()) return originalState;
 
         SulfurCubeRenderState cubeState = new SulfurCubeRenderState();
 

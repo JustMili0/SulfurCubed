@@ -19,7 +19,7 @@ public abstract class ModifyPlayerHitbox {
         Player player = ClientUtil.getPlayer();
         if (player == null) return;
 
-        if (Config.getShouldTransform()) cir.setReturnValue(EntityDimensions.scalable(
+        if (Config.shouldTransform()) cir.setReturnValue(EntityDimensions.scalable(
                 CopyCubeBehavior.CUBE_HITBOX_WIDTH, CopyCubeBehavior.CUBE_HITBOX_HEIGHT));
     }
 }

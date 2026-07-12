@@ -39,7 +39,7 @@ public class Config {
     public static double getModMultiplier() {
         return modifyAttributeIntensity.get();
     }
-    public static boolean getShouldTransform() {
+    public static boolean shouldTransform() {
         Player player = ClientUtil.getPlayer();
         if (player == null) return false;
 

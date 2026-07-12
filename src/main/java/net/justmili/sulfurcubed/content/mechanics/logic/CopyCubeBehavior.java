@@ -1,5 +1,6 @@
 package net.justmili.sulfurcubed.content.mechanics.logic;
 
+import net.justmili.sulfurcubed.config.Config;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
@@ -25,6 +26,14 @@ public class CopyCubeBehavior {
     }
 
     public void tick(AbstractClientPlayer player) {
+        if (!Config.shouldTransform()) {
+            this.targetSquish = 0.0f;
+            this.squish = 0.0f;
+            this.oSquish = 0.0f;
+            this.wasOnGround = player.onGround();
+            return;
+        }
+
         this.oSquish = this.squish;
         this.squish += (this.targetSquish - this.squish) * 0.5f;
 
