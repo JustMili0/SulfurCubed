@@ -2,6 +2,7 @@ package net.justmili.sulfurcubed.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.justmili.sulfurcubed.config.Config;
+import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeBehavior;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.SulfurCubeRenderer;
@@ -9,6 +10,7 @@ import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.SulfurCubeRenderState;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.BlockItem;
@@ -35,6 +37,9 @@ public class SwapRenderers {
         cubeState.x = originalState.x;
         cubeState.y = originalState.y;
         cubeState.z = originalState.z;
+
+        CopyCubeBehavior squish = CopyCubeBehavior.get(player);
+        cubeState.squish = Mth.lerp(partialTicks, squish.oSquish, squish.squish);
 
         cubeState.boundingBoxWidth = originalState.boundingBoxWidth;
         cubeState.boundingBoxHeight = originalState.boundingBoxHeight;

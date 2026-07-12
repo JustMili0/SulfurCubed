@@ -2,9 +2,9 @@ package net.justmili.sulfurcubed.mixin;
 
 import net.justmili.libs.v1.utils.ClientUtil;
 import net.justmili.sulfurcubed.config.Config;
+import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeBehavior;
 import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,11 +19,7 @@ public abstract class ModifyPlayerHitbox {
         Player player = ClientUtil.getPlayer();
         if (player == null) return;
 
-        if (Config.getShouldTransform()) {
-            EntityDimensions dimensions = EntityTypes.SULFUR_CUBE.getDimensions();
-            float width = dimensions.width() * 2,  height = dimensions.height() * 2;
-
-            cir.setReturnValue(EntityDimensions.scalable(width, height));
-        }
+        if (Config.getShouldTransform()) cir.setReturnValue(EntityDimensions.scalable(
+                CopyCubeBehavior.CUBE_HITBOX_WIDTH, CopyCubeBehavior.CUBE_HITBOX_HEIGHT));
     }
 }
