@@ -8,19 +8,19 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 
 public class LockSlots {
-    private static final String LOCK_TAG = "pbs_slotlock";
-    static ItemStack slotLock() {
+    public static final String LOCK_TAG = "pbs_slotlock";
+    public static ItemStack slotLock() {
         ItemStack stack = new ItemStack(Items.BARRIER);
         CompoundTag tag = new CompoundTag();
 
-        stack.set(DataComponents.CUSTOM_NAME, Component.literal(""));
+        stack.set(DataComponents.CUSTOM_NAME, Component.literal("  "));
         tag.putBoolean(LOCK_TAG, true);
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
 
         return stack;
     }
-    public static boolean isSlotLocked(ItemStack stack) {
-        if (stack.is(Items.BARRIER) && stack.getCount() != 1) {
+    public static boolean isSlotLocked(ItemStack stack, boolean skipCountCheck) {
+        if (!skipCountCheck && stack.is(Items.BARRIER) && stack.getCount() != 1) {
             stack.setCount(1);
             return true;
         }

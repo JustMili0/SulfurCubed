@@ -1,4 +1,4 @@
-package net.justmili.libs.v1.config.type.properties;
+package net.justmili.libs.v1.config.writers.properties;
 
 import net.justmili.libs.CoreLibs;
 import net.justmili.libs.v1.config.entry.ConfigEntry;
@@ -6,6 +6,7 @@ import net.justmili.libs.v1.config.entry.ListConfigEntry;
 import net.justmili.libs.v1.config.items.CategoryItem;
 import net.justmili.libs.v1.config.items.CommentItem;
 import net.justmili.libs.v1.config.items.ConfigItem;
+import net.justmili.libs.v1.config.writers.FormatWriter;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -13,8 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-public class PropertiesWriter {
+public class PropertiesWriter implements FormatWriter {
 
+    @Override
     public void write(Path path, CategoryItem root) {
         File file = path.toFile();
         file.getParentFile().mkdirs();
@@ -31,7 +33,7 @@ public class PropertiesWriter {
         for (ConfigItem item : items) {
             if (item instanceof CategoryItem categoryItem) {
                 if (!warnedAboutCategories) {
-                    CoreLibs.LOGGER.warn("Categories are not supported in .properties format, flattening.");
+                    CoreLibs.LOGGER.warn("Categories not supported in .properties format - flattening.");
                     warnedAboutCategories = true;
                 }
                 writeItems(writer, categoryItem.children(), warnedAboutCategories);
@@ -40,16 +42,17 @@ public class PropertiesWriter {
                 for (String line : commentItem.comment().split("\n")) writer.write("# "+line+"\n");
 
             } else if (item instanceof ListConfigEntry listEntry) {
-                writer.write(listHint(listEntry)+"\n");
+                writer.write(listHint(listEntry, CommentStyle.TAG)+"\n");
                 writer.write(listEntry.key()+"="+listEntry.serialize()+"\n\n");
 
             } else if (item instanceof ConfigEntry<?> entry) {
-                writer.write(hint(entry)+"\n");
+                writer.write(hint(entry, CommentStyle.TAG)+"\n");
                 writer.write(entry.key()+"="+entry.serialize()+"\n\n");
             }
         }
     }
 
+    @Override
     public void load(Path path, Map<String, ConfigEntry<?>> entries, Map<String, ListConfigEntry> listEntries) {
         Properties properties = new Properties();
         try (FileInputStream inputStream = new FileInputStream(path.toFile())) {
@@ -60,21 +63,5 @@ public class PropertiesWriter {
         }
         for (ConfigEntry<?> entry : entries.values()) entry.load(properties.getProperty(entry.key()));
         for (ListConfigEntry listEntry : listEntries.values()) listEntry.load(properties.getProperty(listEntry.key()));
-    }
-
-    private String hint(ConfigEntry<?> entry) {
-        String prefix = "# ";
-
-        Object defaultValue = entry.defaultValue();
-        if (entry.hasRange()) return prefix+"Allowed range: "+entry.min()+"-"+entry.max()+" - Default: "+defaultValue;
-        if (defaultValue instanceof Boolean) return prefix+"Allowed values: true, false - Default: "+defaultValue;
-
-        return prefix+"Default: "+defaultValue;
-    }
-
-    private String listHint(ListConfigEntry entry) {
-        String prefix = "# ";
-
-        return prefix+"Allowed types: "+entry.type().getSimpleName()+" - Default: "+entry.defaultValue();
     }
 }

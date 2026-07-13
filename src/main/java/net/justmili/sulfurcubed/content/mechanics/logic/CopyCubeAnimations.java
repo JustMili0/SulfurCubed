@@ -4,29 +4,24 @@ import net.justmili.sulfurcubed.config.Config;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityTypes;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public class CopyCubeBehavior {
-    private static final Map<AbstractClientPlayer, CopyCubeBehavior> TRACKERS = Collections.synchronizedMap(new WeakHashMap<>());
-    public static final EntityDimensions CUBE_HITBOX = EntityTypes.SULFUR_CUBE.getDimensions();
-    public static final float CUBE_HITBOX_WIDTH = CUBE_HITBOX.width() * 2;
-    public static final float CUBE_HITBOX_HEIGHT = CUBE_HITBOX.height() * 2;
+public class CopyCubeAnimations {
+    private static final Map<AbstractClientPlayer, CopyCubeAnimations> TRACKERS = Collections.synchronizedMap(new WeakHashMap<>());
     public float targetSquish;
     public float squish;
     public float oSquish;
     private boolean wasOnGround;
 
-    public static CopyCubeBehavior get(AbstractClientPlayer player) {
-        return TRACKERS.computeIfAbsent(player, _ -> new CopyCubeBehavior());
+    public static CopyCubeAnimations get(AbstractClientPlayer player) {
+        return TRACKERS.computeIfAbsent(player, _ -> new CopyCubeAnimations());
     }
 
     public void tick(AbstractClientPlayer player) {
-        if (!Config.shouldTransform()) {
+        if (!Config.shouldTransform(player)) {
             this.targetSquish = 0.0f;
             this.squish = 0.0f;
             this.oSquish = 0.0f;
@@ -50,7 +45,7 @@ public class CopyCubeBehavior {
     }
 
     private void spawnLandingParticles(AbstractClientPlayer player) {
-        float size = CUBE_HITBOX_WIDTH * 2.0f;
+        float size = CopyCubeConstants.HITBOX_WIDTH * 2.0f;
         float radius = size / 2.0f;
         var random = player.getRandom();
 

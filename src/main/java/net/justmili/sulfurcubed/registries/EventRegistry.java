@@ -1,25 +1,17 @@
 package net.justmili.sulfurcubed.registries;
 
-import net.justmili.libs.v1.utils.ClientUtil;
-import net.justmili.sulfurcubed.client.render.SCHeldItem;
-import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeBehavior;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.justmili.sulfurcubed.content.mechanics.logic.LockSlots;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageAttributes;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageHealth;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageInventory;
-
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.entity.SulfurCubeRenderer;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.state.SulfurCubeRenderState;
-import net.minecraft.world.level.Level;
-
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityRenderLayerRegistrationCallback;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.item.ItemEntity;
 
 public class EventRegistry {
-    public static void registerServer() {
+    public static void register() {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (var player : server.getPlayerList().getPlayers()) {
                 ManageInventory.onPlayerTick(player);
@@ -27,25 +19,12 @@ public class EventRegistry {
                 ManageAttributes.onPlayerTick(player);
             }
         });
-    }
-    public static void registerClient() {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            ManageInventory.onClientTick(client);
+        ServerEntityEvents.ENTITY_LOAD.register((entity, _) -> {
+            if (!(entity instanceof ItemEntity item)) return;
 
-            Level level = ClientUtil.getLevel();
-            if (level == null) return;
-            for (var player : level.players()) {
-                if (player instanceof AbstractClientPlayer clientPlayer) {
-                    CopyCubeBehavior.get(clientPlayer).tick(clientPlayer);
-                }
-            }
+            if (LockSlots.isSlotLocked(item.getItem(), true)) item.discard();
         });
-
-        LivingEntityRenderLayerRegistrationCallback.EVENT.register((_, entityRenderer, registrationHelper, _) -> {
-            if (entityRenderer instanceof SulfurCubeRenderer renderer) {
-                //noinspection RedundantCast,unchecked
-                registrationHelper.register((RenderLayer<SulfurCubeRenderState, ? extends EntityModel<SulfurCubeRenderState>>) (Object) new SCHeldItem(renderer));
-            }
-        });
+        // To prevent losing momentum from fall damage
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register((_, source, _) -> !source.is(DamageTypes.FALL));
     }
 }

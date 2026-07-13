@@ -48,7 +48,7 @@ public class ManageInventory {
             if (slot == 4) continue;
 
             ItemStack current = inv.getItem(slot);
-            if (LockSlots.isSlotLocked(current)) continue;
+            if (LockSlots.isSlotLocked(current, false)) continue;
 
             if (!current.isEmpty()) {
                 player.drop(current.copy(), true);
@@ -64,7 +64,7 @@ public class ManageInventory {
         if (Config.getDisableOffhand()) {
             ItemStack offhand = player.getItemBySlot(EquipmentSlot.OFFHAND);
 
-            if (!LockSlots.isSlotLocked(offhand) && !offhand.isEmpty()) {
+            if (!LockSlots.isSlotLocked(offhand, false) && !offhand.isEmpty()) {
                 player.drop(offhand.copy(), true);
                 player.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
                 inv.setChanged();
@@ -78,7 +78,7 @@ public class ManageInventory {
             }) {
                 ItemStack armor = player.getItemBySlot(armorSlot);
 
-                if (!LockSlots.isSlotLocked(armor) && !armor.isEmpty()) {
+                if (!LockSlots.isSlotLocked(armor, false) && !armor.isEmpty()) {
                     player.drop(armor.copy(), true);
                     player.setItemSlot(armorSlot, ItemStack.EMPTY);
                     inv.setChanged();

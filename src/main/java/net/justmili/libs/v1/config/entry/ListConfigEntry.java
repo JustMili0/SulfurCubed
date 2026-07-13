@@ -83,6 +83,18 @@ public class ListConfigEntry<T> implements ConfigItem {
         }
         return stringBuilder.toString();
     }
+    public String serializeJson(String indent) {
+        StringBuilder stringBuilder = new StringBuilder("[\n");
+        for (int i = 0; i < value.size(); i++) {
+            T element = value.get(i);
+            String formatted = element instanceof String ? "\""+element+"\"" : String.valueOf(element);
+            stringBuilder.append(indent+"  ").append(formatted);
+            if (i < value.size()-1) stringBuilder.append(",");
+            stringBuilder.append("\n");
+        }
+        stringBuilder.append(indent+"]");
+        return stringBuilder.toString();
+    }
 
     private T parse(String raw) {
         Class<?> type = type();

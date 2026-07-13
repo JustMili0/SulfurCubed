@@ -58,7 +58,7 @@ public class ManageAttributes {
         applyOrUpdate(instBounce, modBounce);
         applyOrUpdate(instFriction, modFriction);
         applyOrUpdate(instAirDrag, modAirDrag);
-        if (!Config.shouldTransform()) applyOrUpdate(instScale, modScale);
+        if (!Config.shouldTransform(player)) applyOrUpdate(instScale, modScale);
         applyOrUpdate(instCamera, modCamera);
 
         if (player.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() || player.isCreative() || player.isSpectator()) {

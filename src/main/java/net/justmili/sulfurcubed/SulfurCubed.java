@@ -1,6 +1,7 @@
 package net.justmili.sulfurcubed;
 
 import net.fabricmc.api.ModInitializer;
+import net.justmili.libs.v1.config.sync.fabric.SyncConfigCSPNetworking;
 import net.justmili.libs.v1.utils.ResourceUtil;
 import net.justmili.sulfurcubed.config.Config;
 import net.justmili.sulfurcubed.registries.EventRegistry;
@@ -12,8 +13,12 @@ public class SulfurCubed implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Config.register();
-        EventRegistry.registerServer();
+        SyncConfigCSPNetworking.registerCommon();
+        SyncConfigCSPNetworking.registerServer();
+
+        Config.registerServer();
+        Config.registerCommon();
+        EventRegistry.register();
     }
 
     public static Identifier asResource(String path) {

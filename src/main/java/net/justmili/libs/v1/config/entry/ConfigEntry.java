@@ -45,6 +45,10 @@ public class ConfigEntry<T> implements ConfigItem {
     public T get() {
         return value;
     }
+    public T getOrDefault() {
+        if (value == null) return defaultValue;
+        return value;
+    }
     public void set(T newValue) {
         if (!validate(newValue)) return;
         this.value = newValue;
@@ -52,6 +56,9 @@ public class ConfigEntry<T> implements ConfigItem {
     }
     public boolean is(T value) {
         return this.value.equals(value);
+    }
+    public boolean isNull() {
+        return value == null;
     }
 
     public void load(String raw) {

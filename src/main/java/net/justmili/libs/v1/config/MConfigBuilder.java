@@ -15,8 +15,8 @@ public class MConfigBuilder {
     private final Deque<CategoryItem> stack = new ArrayDeque<>();
     private String comment = null;
 
-    public MConfigBuilder(String modId, String name, boolean createSubDirectory) {
-        this.config = new ConfigLoader(modId, name, createSubDirectory);
+    public MConfigBuilder(String modId, ConfigType configType, FileType fileType, boolean createSubDirectory) {
+        this.config = new ConfigLoader(modId, configType, fileType, createSubDirectory);
         stack.push(new CategoryItem("root", null));
     }
 
@@ -34,7 +34,7 @@ public class MConfigBuilder {
 
     public void closeCat() {
         if (stack.size() <= 1) {
-            CoreLibs.LOGGER.warn("closeCat() called without a matching openCat(), ignoring.");
+            CoreLibs.LOGGER.warn("Ignoring \"closeCat()\" without \"openCat()\".");
             return;
         }
         stack.pop();

@@ -2,7 +2,7 @@ package net.justmili.sulfurcubed.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.justmili.sulfurcubed.config.Config;
-import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeBehavior;
+import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeAnimations;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.SulfurCubeRenderer;
@@ -28,7 +28,7 @@ public class SwapRenderers {
     @ModifyReturnValue(method = "extractEntity", at = @At("RETURN"))
     private EntityRenderState swapExtractedState(EntityRenderState originalState, Entity entity, float partialTicks) {
         if (!(entity instanceof AbstractClientPlayer player) || !(originalState instanceof AvatarRenderState)) return originalState;
-        if (!Config.shouldTransform()) return originalState;
+        if (!Config.shouldTransform(player)) return originalState;
 
         SulfurCubeRenderState cubeState = new SulfurCubeRenderState();
 
@@ -38,7 +38,7 @@ public class SwapRenderers {
         cubeState.y = originalState.y;
         cubeState.z = originalState.z;
 
-        CopyCubeBehavior squish = CopyCubeBehavior.get(player);
+        CopyCubeAnimations squish = CopyCubeAnimations.get(player);
         cubeState.squish = Mth.lerp(partialTicks, squish.oSquish, squish.squish);
 
         cubeState.boundingBoxWidth = originalState.boundingBoxWidth;
