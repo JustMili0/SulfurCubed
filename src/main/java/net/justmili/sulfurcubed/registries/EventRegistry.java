@@ -1,14 +1,22 @@
 package net.justmili.sulfurcubed.registries;
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.justmili.libs.v1.utils.ClientUtil;
+import net.justmili.sulfurcubed.client.render.SCHeldItem;
 import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeBehavior;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageAttributes;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageHealth;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageInventory;
+
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.SulfurCubeRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.SulfurCubeRenderState;
 import net.minecraft.world.level.Level;
+
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityRenderLayerRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 public class EventRegistry {
     public static void registerServer() {
@@ -30,6 +38,13 @@ public class EventRegistry {
                 if (player instanceof AbstractClientPlayer clientPlayer) {
                     CopyCubeBehavior.get(clientPlayer).tick(clientPlayer);
                 }
+            }
+        });
+
+        LivingEntityRenderLayerRegistrationCallback.EVENT.register((_, entityRenderer, registrationHelper, _) -> {
+            if (entityRenderer instanceof SulfurCubeRenderer renderer) {
+                //noinspection RedundantCast,unchecked
+                registrationHelper.register((RenderLayer<SulfurCubeRenderState, ? extends EntityModel<SulfurCubeRenderState>>) (Object) new SCHeldItem(renderer));
             }
         });
     }
