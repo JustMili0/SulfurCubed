@@ -2,7 +2,9 @@ package net.justmili.sulfurcubed.mixin;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,16 +28,6 @@ public abstract class PreventDamage {
 
     @Unique
     private static boolean isImmuneSource(DamageSource source) {
-        return source.is(DamageTypes.FALL)
-            || source.is(DamageTypes.FALLING_BLOCK)
-            || source.is(DamageTypes.FALLING_ANVIL)
-            || source.is(DamageTypes.FALLING_STALACTITE)
-            || source.is(DamageTypes.ARROW)
-            || source.is(DamageTypes.MOB_ATTACK)
-            || source.is(DamageTypes.EXPLOSION)
-            || source.is(DamageTypes.PLAYER_ATTACK)
-            || source.is(DamageTypes.PLAYER_EXPLOSION)
-            || source.is(DamageTypes.CACTUS)
-            || source.is(DamageTypes.FREEZE);
+        return source.is(DamageTypeTags.SULFUR_CUBE_WITH_BLOCK_IMMUNE_TO);
     }
 }

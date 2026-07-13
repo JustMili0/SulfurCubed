@@ -11,8 +11,8 @@ import net.minecraft.client.renderer.entity.state.SulfurCubeRenderState;
 
 public class SCHeldItem extends RenderLayer<SulfurCubeRenderState, SulfurCubeModel> {
 
-    public SCHeldItem(RenderLayerParent<SulfurCubeRenderState, SulfurCubeModel> renderer) {
-        super(renderer);
+    public SCHeldItem(RenderLayerParent<SulfurCubeRenderState, SulfurCubeModel> layerParent) {
+        super(layerParent);
     }
 
     @Override
