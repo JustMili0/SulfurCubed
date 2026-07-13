@@ -1,9 +1,11 @@
 package net.justmili.sulfurcubed.mixin;
 
+import net.justmili.sulfurcubed.config.Config;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -19,13 +21,15 @@ public abstract class PreventDamage {
         if (!(self instanceof ServerPlayer player)) return;
         if (player.getInventory().getItem(4).isEmpty()) return;
 
-        if (isImmuneSource(source)) {
+        if (isImmuneSource(source, player)) {
             ci.cancel();
         }
     }
 
     @Unique
-    private static boolean isImmuneSource(DamageSource source) {
-        return source.is(DamageTypeTags.SULFUR_CUBE_WITH_BLOCK_IMMUNE_TO);
+    private static boolean isImmuneSource(DamageSource source, Player player) {
+        return source.is(DamageTypeTags.SULFUR_CUBE_WITH_BLOCK_IMMUNE_TO)
+            || (Config.shouldTransform(player) && source.is(DamageTypes.IN_WALL));
+        // Prevent suffocation if Sulfur Cube Player hitbox is in a block to prevent accidental deaths
     }
 }
