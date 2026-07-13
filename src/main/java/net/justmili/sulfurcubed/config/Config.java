@@ -53,12 +53,9 @@ public class Config {
     public static boolean shouldTransform(Player player) {
         if (player == null) return false;
 
-        boolean sneaking = player.isShiftKeyDown(),
-            inSurvival = Objects.requireNonNull(player.gameMode()).isSurvival();
-
         return switch (Config.sulfurCubePlayer.get()) {
-            case "ALWAYS" -> inSurvival;
-            case "SNEAKING" -> sneaking && inSurvival;
+            case "ALWAYS" -> true;
+            case "SNEAKING" -> player.isShiftKeyDown();
             default -> false; // "NEVER" and anything unrecognized
         };
     }
