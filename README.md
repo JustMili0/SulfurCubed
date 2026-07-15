@@ -15,7 +15,7 @@ you bounce and slide around depending on what you're holding, and you only have 
 but you are invournable to falls, meele, projectiles, explosions etc. <br>
 <small><i>(all damage sources that a Sulfur Cube is immune to)</i></small> when holding something, and you're only 1 block tall just like a regular Sulfur Cube.<br>
 <br>
-By default you can still use your offhand and equip armor, but you can disable that in `config\sulfurcubed.properties`,<br>
+By default you can still use your offhand and equip armor, but you can disable that in `config\sulfurcubed\server.properties`,<br>
 if you'd like an extra challange.
 
 <hr>

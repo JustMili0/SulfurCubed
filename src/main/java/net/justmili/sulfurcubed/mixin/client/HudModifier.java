@@ -13,13 +13,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(Hud.class)
-public abstract class HudModifier {
+public class HudModifier {
 
+    // Remove hunger bar. Sulfur Cubes don't starve
     @Inject(method = "extractFood", at = @At("HEAD"), cancellable = true)
     private void removeHungerBar(GuiGraphicsExtractor graphics, Player player, int yLineBase, int xRight, CallbackInfo ci) {
         ci.cancel();
     }
 
+    // Center health bar. 4 hearts look prettier when centered
     @ModifyArgs(method = "extractPlayerHealth", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gui/Hud;extractHearts(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/entity/player/Player;IIIIFIIIZ)V"))
     private void centerHearts(Args args) {
@@ -27,16 +29,17 @@ public abstract class HudModifier {
         float maxHealth = args.get(6);
         int absorption = args.get(9);
 
-        int healthContainers = Mth.ceil(maxHealth / 2.0F);
-        int absorptionContainers = Mth.ceil((float) absorption / 2.0F);
-        int totalContainers = Math.min(healthContainers + absorptionContainers, 10);
+        int healthContainers = Mth.ceil(maxHealth / 2.0f),
+            absorptionContainers = Mth.ceil((float) absorption / 2.0f),
+            totalContainers = Math.min(healthContainers + absorptionContainers, 10);
 
-        int rowWidth = totalContainers > 0 ? (totalContainers - 1) * 8 + 9 : 9;
-        int centeredXLeft = (graphics.guiWidth() - rowWidth) / 2;
+        int rowWidth = totalContainers > 0 ? (totalContainers - 1) * 8 + 9 : 9,
+            centeredXLeft = (graphics.guiWidth() - rowWidth) / 2;
 
         args.set(2, centeredXLeft);
     }
 
+    // Make air level rise up and down with health height similar to armor bar
     @ModifyArgs(method = "extractPlayerHealth", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/client/gui/Hud;extractAirBubbles(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/entity/player/Player;III)V"))
     private void raiseBubblesForExtraHealth(Args args) {
@@ -44,9 +47,9 @@ public abstract class HudModifier {
         int yLineAir = args.get(3);
 
         float maxHealth = Math.max((float) player.getAttributeValue(Attributes.MAX_HEALTH), player.getHealth());
-        int totalAbsorption = Mth.ceil(player.getAbsorptionAmount());
-        int numHealthRows = Mth.ceil((maxHealth + (float) totalAbsorption) / 2.0F / 10.0F);
-        int healthRowHeight = Math.max(10 - (numHealthRows - 2), 3);
+        int totalAbsorption = Mth.ceil(player.getAbsorptionAmount()),
+            numHealthRows = Mth.ceil((maxHealth + (float) totalAbsorption) / 2.0f / 10.0f),
+            healthRowHeight = Math.max(10 - (numHealthRows - 2), 3);
 
         args.set(3, yLineAir - (numHealthRows - 1) * healthRowHeight);
     }

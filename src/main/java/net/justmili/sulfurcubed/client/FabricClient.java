@@ -8,6 +8,7 @@ public class FabricClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        // Integration for Millie's Core Libraries included in the mod as M'sCL itself is unfinished
         SyncConfigCSPNetworking.registerClient();
 
         ClientEventRegistry.register();

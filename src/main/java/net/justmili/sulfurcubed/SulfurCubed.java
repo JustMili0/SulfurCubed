@@ -13,6 +13,7 @@ public class SulfurCubed implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        // Integration for Millie's Core Libraries included in the mod as M'sCL itself is unfinished
         SyncConfigCSPNetworking.registerCommon();
         SyncConfigCSPNetworking.registerServer();
 

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Avatar.class)
-public abstract class ModifyPlayerHitbox {
+public class ModifyPlayerHitbox {
     @Inject(method = "getDefaultDimensions", at = @At("RETURN"), cancellable = true)
     private void modifyHitbox(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         Avatar self = (Avatar) (Object) this;
