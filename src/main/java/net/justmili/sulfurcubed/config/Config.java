@@ -7,8 +7,6 @@ import net.justmili.libs.v1.config.entry.ConfigEntry;
 import net.justmili.sulfurcubed.SulfurCubed;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.Objects;
-
 public class Config {
     public static MConfigBuilder server = new MConfigBuilder(SulfurCubed.MODID, ConfigType.SERVER, FileType.PROPERTIES, true);
     public static MConfigBuilder common = new MConfigBuilder(SulfurCubed.MODID, ConfigType.COMMON_SERVER_PRIORITY, FileType.PROPERTIES, true);
@@ -53,7 +51,7 @@ public class Config {
     public static boolean shouldTransform(Player player) {
         if (player == null) return false;
 
-        return switch (Config.sulfurCubePlayer.get()) {
+        return switch (sulfurCubePlayer.get()) {
             case "ALWAYS" -> true;
             case "SNEAKING" -> player.isShiftKeyDown();
             default -> false; // "NEVER" and anything unrecognized

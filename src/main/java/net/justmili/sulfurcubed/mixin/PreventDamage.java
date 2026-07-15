@@ -2,7 +2,6 @@ package net.justmili.sulfurcubed.mixin;
 
 import net.justmili.sulfurcubed.config.Config;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -15,15 +14,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Player.class)
 public abstract class PreventDamage {
+
+    // Prevent damage but allow getting knockback
     @Inject(method = "actuallyHurt", at = @At("HEAD"), cancellable = true)
     private void cancelDamageOnly(ServerLevel level, DamageSource source, float dmg, CallbackInfo ci) {
-        Player self = (Player)(Object)this;
-        if (!(self instanceof ServerPlayer player)) return;
+        Player player = (Player)(Object)this;
         if (player.getInventory().getItem(4).isEmpty()) return;
 
-        if (isImmuneSource(source, player)) {
-            ci.cancel();
-        }
+        if (isImmuneSource(source, player)) ci.cancel();
     }
 
     @Unique

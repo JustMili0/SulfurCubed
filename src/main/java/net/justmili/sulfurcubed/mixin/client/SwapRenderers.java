@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.SulfurCubeRenderState;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.BlockItem;
@@ -30,7 +29,7 @@ public class SwapRenderers {
         if (!(entity instanceof AbstractClientPlayer player) || !(originalState instanceof AvatarRenderState)) return originalState;
         if (!Config.shouldTransform(player)) return originalState;
 
-        SulfurCubeRenderState cubeState = new SulfurCubeRenderState();
+        var cubeState = new SulfurCubeRenderState();
 
         cubeState.size = 2;
         cubeState.bodyRot = player.getViewYRot(partialTicks);
@@ -38,12 +37,13 @@ public class SwapRenderers {
         cubeState.y = originalState.y;
         cubeState.z = originalState.z;
 
-        CopyCubeAnimations squish = CopyCubeAnimations.get(player);
-        cubeState.squish = Mth.lerp(partialTicks, squish.oSquish, squish.squish);
-
         cubeState.boundingBoxWidth = originalState.boundingBoxWidth;
         cubeState.boundingBoxHeight = originalState.boundingBoxHeight;
         cubeState.eyeHeight = originalState.eyeHeight;
+
+        cubeState.squish = CopyCubeAnimations.getSquish(player, partialTicks);
+        cubeState.hasRedOverlay = ((AvatarRenderState) originalState).hasRedOverlay;
+        cubeState.deathTime = ((AvatarRenderState) originalState).deathTime;
 
         cubeState.displayFireAnimation = originalState.displayFireAnimation;
         cubeState.isInvisible = originalState.isInvisible;

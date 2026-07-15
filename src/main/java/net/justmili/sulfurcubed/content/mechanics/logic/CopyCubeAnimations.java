@@ -20,6 +20,11 @@ public class CopyCubeAnimations {
         return TRACKERS.computeIfAbsent(player, _ -> new CopyCubeAnimations());
     }
 
+    public static float getSquish(AbstractClientPlayer player, float partialTicks) {
+        var squish = get(player);
+        return Mth.lerp(partialTicks, squish.oSquish, squish.squish);
+    }
+
     public void tick(AbstractClientPlayer player) {
         if (!Config.shouldTransform(player)) {
             this.targetSquish = 0.0f;
