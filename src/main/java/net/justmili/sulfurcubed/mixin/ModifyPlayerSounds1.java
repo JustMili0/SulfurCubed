@@ -2,10 +2,7 @@ package net.justmili.sulfurcubed.mixin;
 
 import net.justmili.sulfurcubed.config.Config;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public class ModifyPlayerSounds {
+public class ModifyPlayerSounds1 {
 
     // TODO: Fix drop and pickup sounds, idk I can't figure it out
     @Inject(method = "onItemPickup", at = @At("HEAD"))
@@ -51,20 +48,5 @@ public class ModifyPlayerSounds {
 
         boolean hasHandItem = !player.getMainHandItem().isEmpty();
         self.makeSound(hasHandItem? SoundEvents.SULFUR_CUBE_BOUNCE : SoundEvents.SULFUR_CUBE_SQUISH);
-    }
-
-    @Inject(method = "getHurtSound", at = @At("RETURN"), cancellable = true)
-    private void playCubeHurt(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
-        LivingEntity self = (LivingEntity)(Object)this;
-        if (!(self instanceof Player player) || !Config.shouldTransform(player)) return;
-
-        cir.setReturnValue(SoundEvents.SULFUR_CUBE_HURT);
-    }
-    @Inject(method = "getDeathSound", at = @At("RETURN"), cancellable = true)
-    private void playCubeDeath(CallbackInfoReturnable<SoundEvent> cir) {
-        LivingEntity self = (LivingEntity)(Object)this;
-        if (!(self instanceof Player player) || !Config.shouldTransform(player)) return;
-
-        cir.setReturnValue(SoundEvents.SULFUR_CUBE_DEATH);
     }
 }

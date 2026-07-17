@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ModifyPlayerHitbox",
-    "ModifyPlayerSounds",
+    "ModifyPlayerSounds1",
+    "ModifyPlayerSounds2",
     "PreventBarrierDrop",
     "PreventBarrierPickup",
     "PreventDamage"

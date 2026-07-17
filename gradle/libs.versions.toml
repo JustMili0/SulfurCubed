@@ -6,6 +6,9 @@ fabric_loader = "0.19.2"
 fabric_api = "0.154.2+26.2"
 fabric_loom = "1.16-SNAPSHOT"
 
+# https://github.com/modmuss50/mod-publish-plugin
+publish = "2.1.1"
+
 # https://github.com/Bawnorton/MixinSquared/releases
 mixinsquared = "0.3.3"
 
@@ -16,3 +19,4 @@ fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fab
 
 [plugins]
 fabric_loom = { id = "net.fabricmc.fabric-loom", version.ref = "fabric_loom" }
+publish = { id = "me.modmuss50.mod-publish-plugin", version.ref = "publish" }

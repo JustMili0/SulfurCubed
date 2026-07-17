@@ -14,7 +14,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,6 +28,7 @@ public class SwapRenderers {
         if (!(entity instanceof AbstractClientPlayer player) || !(originalState instanceof AvatarRenderState)) return originalState;
         if (!Config.shouldTransform(player)) return originalState;
 
+        var mainHand = player.getMainHandItem();
         var cubeState = new SulfurCubeRenderState();
 
         cubeState.size = 2;
@@ -39,10 +39,9 @@ public class SwapRenderers {
 
         cubeState.boundingBoxWidth = originalState.boundingBoxWidth;
         cubeState.boundingBoxHeight = originalState.boundingBoxHeight;
-        cubeState.eyeHeight = originalState.eyeHeight;
 
         cubeState.squish = CopyCubeAnimations.getSquish(player, partialTicks);
-        cubeState.hasRedOverlay = ((AvatarRenderState) originalState).hasRedOverlay;
+        cubeState.hasRedOverlay = mainHand.isEmpty() && ((AvatarRenderState) originalState).hasRedOverlay;
         cubeState.deathTime = ((AvatarRenderState) originalState).deathTime;
 
         cubeState.displayFireAnimation = originalState.displayFireAnimation;
@@ -59,7 +58,6 @@ public class SwapRenderers {
         // Render held blocks
         // Non-block/non-blockitem items get rendered with SCHeldItem
         EntityRenderDispatcher dispatcher = (EntityRenderDispatcher) (Object) this;
-        ItemStack mainHand = player.getMainHandItem();
 
         if (mainHand.getItem() instanceof BlockItem) {
             BlockItemStateProperties blockItemState = mainHand.getOrDefault(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY);
