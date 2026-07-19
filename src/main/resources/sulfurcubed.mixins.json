@@ -12,6 +12,7 @@
     "PreventDamage"
   ],
   "client": [
+    "client.HideHand",
     "client.HudModifier",
     "client.SulfurCubeInnerLayerMixin",
     "client.SwapRenderers"

@@ -5,15 +5,19 @@ import net.justmili.libs.v1.config.FileType;
 import net.justmili.libs.v1.config.MConfigBuilder;
 import net.justmili.libs.v1.config.entry.ConfigEntry;
 import net.justmili.sulfurcubed.SulfurCubed;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 
 public class Config {
-    public static MConfigBuilder server = new MConfigBuilder(SulfurCubed.MODID, ConfigType.SERVER, FileType.PROPERTIES, true);
-    public static MConfigBuilder common = new MConfigBuilder(SulfurCubed.MODID, ConfigType.COMMON_SERVER_PRIORITY, FileType.PROPERTIES, true);
+    private static MConfigBuilder newConfig(ConfigType configType) {
+        return new MConfigBuilder(SulfurCubed.MODID, configType, FileType.PROPERTIES, true);
+    }
+    public static MConfigBuilder server = newConfig(ConfigType.SERVER), common = newConfig(ConfigType.COMMON_SERVER_PRIORITY), client = newConfig(ConfigType.CLIENT);
 
-    public static ConfigEntry<Boolean> disableOffhand, disableArmor;
+    public static ConfigEntry<Boolean> disableOffhand, disableArmor, sulfurBall;
     public static ConfigEntry<Double> modifyAttributeIntensity;
-    public static ConfigEntry<String> sulfurCubePlayer;
+    public static ConfigEntry<String> sulfurCubePlayer, hideHand;
 
     public static void registerServer() {
 
@@ -39,6 +43,16 @@ public class Config {
         common.build();
     }
 
+    public static void registerClient() {
+        hideHand = client.comment("""
+                When should the mod hide player hand in first-person?
+                Only applies when the player is rendered as a Sulfur Cube (sulfurCubePlayer).
+                Allowed values: ALWAYS, NEVER, HAND_EMPTY""")
+            .define("hideHand", "HAND_EMPTY");
+
+        client.build();
+    }
+
     public static boolean getDisableOffhand() {
         return disableOffhand.get();
     }
@@ -54,6 +68,16 @@ public class Config {
         return switch (sulfurCubePlayer.get()) {
             case "ALWAYS" -> true;
             case "SNEAKING" -> player.isShiftKeyDown();
+            default -> false; // "NEVER" and anything unrecognized
+        };
+    }
+    public static boolean shouldHideHand(Player player) {
+        if (player == null) return false;
+        if (!shouldTransform(player)) return false;
+
+        return switch (hideHand.get()) {
+            case "ALWAYS" -> true;
+            case "HAND_EMPTY" -> player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty();
             default -> false; // "NEVER" and anything unrecognized
         };
     }
