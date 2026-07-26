@@ -5,7 +5,6 @@ import net.justmili.libs.v1.config.FileType;
 import net.justmili.libs.v1.config.MConfigBuilder;
 import net.justmili.libs.v1.config.entry.ConfigEntry;
 import net.justmili.sulfurcubed.SulfurCubed;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 

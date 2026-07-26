@@ -14,8 +14,6 @@ public class PreventBarrierDrop {
     @Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/entity/item/ItemEntity;",
         at = @At("HEAD"), cancellable = true)
     private void preventLockedDrop(ItemStack stack, boolean thrownFromHand, CallbackInfoReturnable<ItemEntity> cir) {
-        if (LockSlots.isSlotLocked(stack, false)) {
-            cir.setReturnValue(null);
-        }
+        if (LockSlots.isSlotLocked(stack, false)) cir.setReturnValue(null);
     }
 }

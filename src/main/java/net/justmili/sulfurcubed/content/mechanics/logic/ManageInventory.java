@@ -62,13 +62,7 @@ public class ManageInventory {
 
         // Drop everything from offhand if enabled
         if (Config.getDisableOffhand()) {
-            ItemStack offhand = player.getItemBySlot(EquipmentSlot.OFFHAND);
-
-            if (!LockSlots.isSlotLocked(offhand, false) && !offhand.isEmpty()) {
-                player.drop(offhand.copy(), true);
-                player.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
-                inv.setChanged();
-            }
+            dropFromSlot(player, EquipmentSlot.OFFHAND);
         }
 
         // Drop all armor if enabled
@@ -76,14 +70,18 @@ public class ManageInventory {
             for (EquipmentSlot armorSlot : new EquipmentSlot[]{
                 EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
             }) {
-                ItemStack armor = player.getItemBySlot(armorSlot);
-
-                if (!LockSlots.isSlotLocked(armor, false) && !armor.isEmpty()) {
-                    player.drop(armor.copy(), true);
-                    player.setItemSlot(armorSlot, ItemStack.EMPTY);
-                    inv.setChanged();
-                }
+                dropFromSlot(player, armorSlot);
             }
+        }
+    }
+
+    private static void dropFromSlot(ServerPlayer player, EquipmentSlot slot) {
+        ItemStack stack = player.getItemBySlot(slot);
+
+        if (!LockSlots.isSlotLocked(stack, false) && !stack.isEmpty()) {
+            player.drop(stack.copy(), true);
+            player.setItemSlot(slot, ItemStack.EMPTY);
+            player.getInventory().setChanged();
         }
     }
 }

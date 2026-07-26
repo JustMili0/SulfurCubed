@@ -1,6 +1,7 @@
 package net.justmili.sulfurcubed.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.justmili.libs.v1.utils.RenderStateUtil;
 import net.justmili.sulfurcubed.config.Config;
 import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeAnimations;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -16,7 +17,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -31,37 +31,20 @@ public class SwapRenderers {
         var mainHand = player.getMainHandItem();
         var cubeState = new SulfurCubeRenderState();
 
+        RenderStateUtil.copyTo(originalState, cubeState);
         cubeState.size = 2;
         cubeState.bodyRot = player.getViewYRot(partialTicks);
-        cubeState.x = originalState.x;
-        cubeState.y = originalState.y;
-        cubeState.z = originalState.z;
-
-        cubeState.boundingBoxWidth = originalState.boundingBoxWidth;
-        cubeState.boundingBoxHeight = originalState.boundingBoxHeight;
-
         cubeState.squish = CopyCubeAnimations.getSquish(player, partialTicks);
         cubeState.hasRedOverlay = mainHand.isEmpty() && ((AvatarRenderState) originalState).hasRedOverlay;
-        cubeState.deathTime = ((AvatarRenderState) originalState).deathTime;
-
-        cubeState.displayFireAnimation = originalState.displayFireAnimation;
-        cubeState.isInvisible = originalState.isInvisible;
-        cubeState.isDiscrete = originalState.isDiscrete;
-        cubeState.distanceToCameraSq = originalState.distanceToCameraSq;
-        cubeState.lightCoords = originalState.lightCoords;
-        cubeState.outlineColor = originalState.outlineColor;
-
         cubeState.entityType = EntityTypes.SULFUR_CUBE;
-        cubeState.isBaby = false;
-        cubeState.shadowRadius = 0.25f;
 
         // Render held blocks
         // Non-block/non-blockitem items get rendered with SCHeldItem
-        EntityRenderDispatcher dispatcher = (EntityRenderDispatcher) (Object) this;
+        var dispatcher = (EntityRenderDispatcher) (Object) this;
 
         if (mainHand.getItem() instanceof BlockItem) {
-            BlockItemStateProperties blockItemState = mainHand.getOrDefault(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY);
-            BlockState blockState = blockItemState.apply(Block.byItem(mainHand.getItem()).defaultBlockState());
+            var blockItemState = mainHand.getOrDefault(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY);
+            var blockState = blockItemState.apply(Block.byItem(mainHand.getItem()).defaultBlockState());
             dispatcher.blockModelResolver.update(cubeState.containedBlock, blockState, SulfurCubeRenderer.BLOCK_DISPLAY_CONTEXT);
         } else {
             dispatcher.itemModelResolver.updateForLiving(cubeState.headItem, mainHand, ItemDisplayContext.FIXED, player);

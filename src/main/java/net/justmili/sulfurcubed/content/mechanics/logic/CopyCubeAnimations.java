@@ -39,7 +39,27 @@ public class CopyCubeAnimations {
 
         boolean onGround = player.onGround();
         if (onGround && !this.wasOnGround) {
-            spawnLandingParticles(player);
+
+            // Spawn particles
+            float size = CopyCubeConstants.HITBOX_WIDTH * 2.0f,
+                radius = size / 2.0f;
+            var random = player.getRandom();
+
+            for (int i = 0; (float) i < size * 16.0f; i++) {
+                float direction = random.nextFloat() * ((float) Math.PI * 2f),
+                    distance = random.nextFloat() * 0.5f + 0.5f,
+                    offsetX = Mth.sin(direction) * radius * distance,
+                    offsetZ = Mth.cos(direction) * radius * distance;
+
+                player.level().addParticle(
+                    ParticleTypes.SULFUR_CUBE_GOO,
+                    player.getX() + (double) offsetX,
+                    player.getY(),
+                    player.getZ() + (double) offsetZ,
+                    0.0, 0.0, 0.0
+                );
+            }
+
             this.targetSquish = -0.5f;
         } else if (!onGround && this.wasOnGround) {
             this.targetSquish = 1.0f;
@@ -47,26 +67,5 @@ public class CopyCubeAnimations {
 
         this.wasOnGround = onGround;
         this.targetSquish *= 0.6f;
-    }
-
-    private void spawnLandingParticles(AbstractClientPlayer player) {
-        float size = CopyCubeConstants.HITBOX_WIDTH * 2.0f;
-        float radius = size / 2.0f;
-        var random = player.getRandom();
-
-        for (int i = 0; (float) i < size * 16.0f; i++) {
-            float direction = random.nextFloat() * ((float) Math.PI * 2f);
-            float d = random.nextFloat() * 0.5f + 0.5f;
-            float xd = Mth.sin(direction) * radius * d;
-            float zd = Mth.cos(direction) * radius * d;
-
-            player.level().addParticle(
-                ParticleTypes.SULFUR_CUBE_GOO,
-                player.getX() + (double) xd,
-                player.getY(),
-                player.getZ() + (double) zd,
-                0.0, 0.0, 0.0
-            );
-        }
     }
 }

@@ -14,8 +14,6 @@ public class PreventBarrierPickup {
     @Inject(method = "mayPickup", at = @At("HEAD"), cancellable = true)
     private void preventLockedPickup(Player player, CallbackInfoReturnable<Boolean> cir) {
         ItemStack stack = ((Slot)(Object)this).getItem();
-        if (LockSlots.isSlotLocked(stack, false)) {
-            cir.setReturnValue(false);
-        }
+        if (LockSlots.isSlotLocked(stack, false)) cir.setReturnValue(false);
     }
 }
