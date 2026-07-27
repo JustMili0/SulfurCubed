@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityRenderLayerRegistrationCallback;
 import net.justmili.libs.v1.utils.ClientUtil;
 import net.justmili.sulfurcubed.client.render.SCHeldItem;
-import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeAnimations;
+import net.justmili.sulfurcubed.client.render.SCAnimations;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageInventory;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -24,9 +24,8 @@ public class ClientEventRegistry {
             Level level = ClientUtil.getLevel();
             if (level == null) return;
             for (var player : level.players()) {
-                if (player instanceof AbstractClientPlayer clientPlayer) {
-                    CopyCubeAnimations.get(clientPlayer).tick(clientPlayer);
-                }
+                if (player instanceof AbstractClientPlayer clientPlayer)
+                    SCAnimations.get(clientPlayer).tick(clientPlayer);
             }
         });
 

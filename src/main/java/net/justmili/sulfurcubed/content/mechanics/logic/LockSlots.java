@@ -13,7 +13,7 @@ public class LockSlots {
         ItemStack stack = new ItemStack(Items.BARRIER);
         CompoundTag tag = new CompoundTag();
 
-        stack.set(DataComponents.CUSTOM_NAME, Component.literal("  "));
+        stack.set(DataComponents.CUSTOM_NAME, Component.literal(""));
         tag.putBoolean(LOCK_TAG, true);
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
 

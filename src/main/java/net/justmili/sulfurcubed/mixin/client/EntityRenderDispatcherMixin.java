@@ -3,7 +3,8 @@ package net.justmili.sulfurcubed.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.justmili.libs.v1.utils.RenderStateUtil;
 import net.justmili.sulfurcubed.config.Config;
-import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeAnimations;
+import net.justmili.sulfurcubed.client.render.SCAnimations;
+import net.justmili.sulfurcubed.content.mechanics.logic.LockSlots;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.SulfurCubeRenderer;
@@ -15,8 +16,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -34,7 +37,7 @@ public class EntityRenderDispatcherMixin {
         RenderStateUtil.copyTo(originalState, cubeState);
         cubeState.size = 2;
         cubeState.bodyRot = player.getViewYRot(partialTicks);
-        cubeState.squish = CopyCubeAnimations.getSquish(player, partialTicks);
+        cubeState.squish = SCAnimations.getSquish(player, partialTicks);
         cubeState.hasRedOverlay = mainHand.isEmpty() && ((AvatarRenderState) originalState).hasRedOverlay;
         cubeState.entityType = EntityTypes.SULFUR_CUBE;
 
@@ -45,6 +48,7 @@ public class EntityRenderDispatcherMixin {
         if (mainHand.getItem() instanceof BlockItem) {
             var blockItemState = mainHand.getOrDefault(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY);
             var blockState = blockItemState.apply(Block.byItem(mainHand.getItem()).defaultBlockState());
+            if (blockState.is(Blocks.BARRIER)) return cubeState; // Don't try to render Barrier blocks
             dispatcher.blockModelResolver.update(cubeState.containedBlock, blockState, SulfurCubeRenderer.BLOCK_DISPLAY_CONTEXT);
         } else {
             dispatcher.itemModelResolver.updateForLiving(cubeState.headItem, mainHand, ItemDisplayContext.FIXED, player);

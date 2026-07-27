@@ -1,6 +1,7 @@
-package net.justmili.sulfurcubed.content.mechanics.logic;
+package net.justmili.sulfurcubed.client.render;
 
 import net.justmili.sulfurcubed.config.Config;
+import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeConstants;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
@@ -9,15 +10,15 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public class CopyCubeAnimations {
-    private static final Map<AbstractClientPlayer, CopyCubeAnimations> TRACKERS = Collections.synchronizedMap(new WeakHashMap<>());
+public class SCAnimations {
+    private static final Map<AbstractClientPlayer, SCAnimations> TRACKERS = Collections.synchronizedMap(new WeakHashMap<>());
     public float targetSquish;
     public float squish;
     public float oSquish;
     private boolean wasOnGround;
 
-    public static CopyCubeAnimations get(AbstractClientPlayer player) {
-        return TRACKERS.computeIfAbsent(player, _ -> new CopyCubeAnimations());
+    public static SCAnimations get(AbstractClientPlayer player) {
+        return TRACKERS.computeIfAbsent(player, _ -> new SCAnimations());
     }
 
     public static float getSquish(AbstractClientPlayer player, float partialTicks) {
