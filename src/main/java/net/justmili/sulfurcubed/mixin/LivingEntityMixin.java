@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public class ModifyPlayerSounds1 {
+public class LivingEntityMixin {
 
     // TODO: Fix drop and pickup sounds, idk I can't figure it out
 //    @Inject(method = "onItemPickup", at = @At("HEAD"))

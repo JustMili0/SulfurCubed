@@ -4,18 +4,16 @@
   "package": "net.justmili.sulfurcubed.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ModifyPlayerHitbox",
-    "ModifyPlayerSounds1",
-    "ModifyPlayerSounds2",
-    "PreventBarrierDrop",
-    "PreventBarrierPickup",
-    "PreventDamage"
+    "AvatarMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "SlotMixin"
   ],
   "client": [
-    "client.HideHand",
-    "client.HudModifier",
+    "client.GameRendererMixin",
+    "client.HudMixin",
     "client.SulfurCubeInnerLayerMixin",
-    "client.SwapRenderers"
+    "client.EntityRenderDispatcherMixin"
   ],
   "injectors": {
     "defaultRequire": 1

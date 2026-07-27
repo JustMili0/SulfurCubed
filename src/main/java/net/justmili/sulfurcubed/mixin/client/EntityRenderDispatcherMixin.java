@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(EntityRenderDispatcher.class)
-public class SwapRenderers {
+public class EntityRenderDispatcherMixin {
 
     @ModifyReturnValue(method = "extractEntity", at = @At("RETURN"))
     private EntityRenderState swapExtractedState(EntityRenderState originalState, Entity entity, float partialTicks) {

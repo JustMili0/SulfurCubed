@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(Hud.class)
-public class HudModifier {
+public class HudMixin {
 
     // Remove hunger bar. Sulfur Cubes don't starve
     @Inject(method = "extractFood", at = @At("HEAD"), cancellable = true)

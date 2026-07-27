@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Slot.class)
-public class PreventBarrierPickup {
+public class SlotMixin {
     @Inject(method = "mayPickup", at = @At("HEAD"), cancellable = true)
     private void preventLockedPickup(Player player, CallbackInfoReturnable<Boolean> cir) {
         ItemStack stack = ((Slot)(Object)this).getItem();
