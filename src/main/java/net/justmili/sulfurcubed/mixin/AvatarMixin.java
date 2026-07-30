@@ -1,7 +1,7 @@
 package net.justmili.sulfurcubed.mixin;
 
 import net.justmili.sulfurcubed.config.Config;
-import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeConstants;
+import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
 import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
@@ -19,6 +19,6 @@ public class AvatarMixin {
         if (!(self instanceof Player player)) return;
 
         if (Config.shouldTransform(player)) cir.setReturnValue(EntityDimensions.fixed( // fixed so scale attribute doesn't change the hitbox
-            CopyCubeConstants.HITBOX_WIDTH, CopyCubeConstants.HITBOX_HEIGHT));
+            PlayerCubeUtil.HITBOX_WIDTH, PlayerCubeUtil.HITBOX_HEIGHT));
     }
 }

@@ -2,6 +2,7 @@ package net.justmili.sulfurcubed.mixin;
 
 import net.justmili.sulfurcubed.config.Config;
 import net.justmili.sulfurcubed.content.mechanics.logic.LockSlots;
+import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -48,7 +49,7 @@ public class PlayerMixin {
     @Inject(method = "actuallyHurt", at = @At("HEAD"), cancellable = true)
     private void cancelDamageOnly(ServerLevel level, DamageSource source, float dmg, CallbackInfo ci) {
         Player player = (Player)(Object)this;
-        if (player.getInventory().getItem(4).isEmpty()) return;
+        if (PlayerCubeUtil.hasHandItem(player)) return;
 
         if (isImmuneSource(source, player)) ci.cancel();
     }

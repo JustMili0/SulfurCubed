@@ -5,15 +5,14 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityRenderLayerRegistrationCallback;
 import net.justmili.libs.v1.utils.ClientUtil;
-import net.justmili.sulfurcubed.client.render.SCHeldItem;
 import net.justmili.sulfurcubed.client.render.SCAnimations;
+import net.justmili.sulfurcubed.client.render.SCHeldItem;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageInventory;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.SulfurCubeRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.SulfurCubeRenderState;
-import net.minecraft.world.level.Level;
 
 @Environment(EnvType.CLIENT)
 public class ClientEventRegistry {
@@ -21,7 +20,7 @@ public class ClientEventRegistry {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             ManageInventory.onClientTick(client);
 
-            Level level = ClientUtil.getLevel();
+            var level = ClientUtil.getLevel();
             if (level == null) return;
             for (var player : level.players()) {
                 if (player instanceof AbstractClientPlayer clientPlayer)

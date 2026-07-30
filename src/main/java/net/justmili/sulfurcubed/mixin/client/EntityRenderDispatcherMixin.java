@@ -2,9 +2,8 @@ package net.justmili.sulfurcubed.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.justmili.libs.v1.utils.RenderStateUtil;
-import net.justmili.sulfurcubed.config.Config;
 import net.justmili.sulfurcubed.client.render.SCAnimations;
-import net.justmili.sulfurcubed.content.mechanics.logic.LockSlots;
+import net.justmili.sulfurcubed.config.Config;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.SulfurCubeRenderer;
@@ -16,7 +15,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;

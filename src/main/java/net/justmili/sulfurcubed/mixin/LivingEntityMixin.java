@@ -1,6 +1,7 @@
 package net.justmili.sulfurcubed.mixin;
 
 import net.justmili.sulfurcubed.config.Config;
+import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,7 +44,6 @@ public class LivingEntityMixin {
         if (!(self instanceof Player player) || !Config.shouldTransform(player)) return;
         if (!onGround || !(self.fallDistance > 0.0)) return;
 
-        boolean hasHandItem = !player.getMainHandItem().isEmpty();
-        self.makeSound(hasHandItem? SoundEvents.SULFUR_CUBE_BOUNCE : SoundEvents.SULFUR_CUBE_SQUISH);
+        self.makeSound(PlayerCubeUtil.hasHandItem(player)? SoundEvents.SULFUR_CUBE_BOUNCE : SoundEvents.SULFUR_CUBE_SQUISH);
     }
 }

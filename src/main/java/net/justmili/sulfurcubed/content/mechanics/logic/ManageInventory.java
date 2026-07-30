@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 public class ManageInventory {
@@ -16,7 +15,7 @@ public class ManageInventory {
     @Environment(EnvType.CLIENT)
     public static void onClientTick(Minecraft minecraft) {
         if (minecraft.player == null) return;
-        Inventory inv = minecraft.player.getInventory();
+        var inv = minecraft.player.getInventory();
 
         if (inv.getSelectedSlot() != 4) {
             inv.setSelectedSlot(4);
@@ -28,13 +27,13 @@ public class ManageInventory {
 
     // Lock all slots (except hotbar middle, offhand and armor are configurable)
     public static void onPlayerTick(ServerPlayer player) {
-        Inventory inv = player.getInventory();
+        var inv = player.getInventory();
         int size = inv.getNonEquipmentItems().size();
 
         // Limit main hand (slot 4) to a single item
-        ItemStack mainHand = inv.getItem(4);
+        var mainHand = inv.getItem(4);
         if (!mainHand.isEmpty() && mainHand.getCount() > 1 && mainHand.getMaxStackSize() > 1) {
-            ItemStack excess = mainHand.copy();
+            var excess = mainHand.copy();
             excess.setCount(mainHand.getCount() - 1);
             player.drop(excess, true);
 
@@ -47,7 +46,7 @@ public class ManageInventory {
         for (int slot = 0; slot < size; slot++) {
             if (slot == 4) continue;
 
-            ItemStack current = inv.getItem(slot);
+            var current = inv.getItem(slot);
             if (LockSlots.isSlotLocked(current, false)) continue;
 
             if (!current.isEmpty()) {
@@ -76,7 +75,7 @@ public class ManageInventory {
     }
 
     private static void dropFromSlot(ServerPlayer player, EquipmentSlot slot) {
-        ItemStack stack = player.getItemBySlot(slot);
+        var stack = player.getItemBySlot(slot);
 
         if (!LockSlots.isSlotLocked(stack, false) && !stack.isEmpty()) {
             player.drop(stack.copy(), true);

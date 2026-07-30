@@ -10,10 +10,10 @@
     "SlotMixin"
   ],
   "client": [
+    "client.EntityRenderDispatcherMixin",
     "client.GameRendererMixin",
     "client.HudMixin",
-    "client.SulfurCubeInnerLayerMixin",
-    "client.EntityRenderDispatcherMixin"
+    "client.SulfurCubeInnerLayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

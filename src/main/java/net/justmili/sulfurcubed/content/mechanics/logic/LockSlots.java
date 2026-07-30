@@ -10,8 +10,8 @@ import net.minecraft.world.item.component.CustomData;
 public class LockSlots {
     public static final String LOCK_TAG = "pbs_slotlock";
     public static ItemStack slotLock() {
-        ItemStack stack = new ItemStack(Items.BARRIER);
-        CompoundTag tag = new CompoundTag();
+        var stack = new ItemStack(Items.BARRIER);
+        var tag = new CompoundTag();
 
         stack.set(DataComponents.CUSTOM_NAME, Component.literal(""));
         tag.putBoolean(LOCK_TAG, true);
@@ -25,7 +25,7 @@ public class LockSlots {
             return true;
         }
         if (stack.isEmpty() || !stack.is(Items.BARRIER)) return false;
-        CustomData data = stack.get(DataComponents.CUSTOM_DATA);
+        var data = stack.get(DataComponents.CUSTOM_DATA);
 
         return data != null && data.copyTag().getBoolean(LOCK_TAG).orElse(false);
     }

@@ -1,7 +1,7 @@
 package net.justmili.sulfurcubed.client.render;
 
 import net.justmili.sulfurcubed.config.Config;
-import net.justmili.sulfurcubed.content.mechanics.logic.CopyCubeConstants;
+import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
@@ -42,7 +42,7 @@ public class SCAnimations {
         if (onGround && !this.wasOnGround) {
 
             // Spawn particles
-            float size = CopyCubeConstants.HITBOX_WIDTH * 2.0f,
+            float size = PlayerCubeUtil.HITBOX_WIDTH * 2.0f,
                 radius = size / 2.0f;
             var random = player.getRandom();
 
