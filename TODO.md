@@ -1,1 +1,0 @@
-- Make sulfur cube hitbox scalable again
