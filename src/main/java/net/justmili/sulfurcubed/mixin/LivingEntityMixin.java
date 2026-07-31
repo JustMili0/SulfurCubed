@@ -58,9 +58,8 @@ public abstract class LivingEntityMixin {
     @Inject(method = "knockback(DDDLnet/minecraft/world/damagesource/DamageSource;FZ)V", at = @At("HEAD"), cancellable = true)
     private void handleSulfurCubeKnockback(double power, double xd, double zd, DamageSource source, float damage, boolean comesFromEffect, CallbackInfo ci) {
         LivingEntity self = (LivingEntity)(Object)this;
-        if (!(self instanceof Player player) || !Config.shouldTransform(player)) return;
-        if (ManageVelocity.knockback(player, power, xd, zd, source, damage, comesFromEffect)) {
-            ci.cancel();
-        }
+        if (!(self instanceof Player player)) return;
+        
+        if (ManageVelocity.knockback(player, power, xd, zd, source, damage, comesFromEffect)) ci.cancel();
     }
 }

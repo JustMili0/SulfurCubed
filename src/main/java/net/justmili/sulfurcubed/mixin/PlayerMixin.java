@@ -49,15 +49,8 @@ public class PlayerMixin {
     @Inject(method = "actuallyHurt", at = @At("HEAD"), cancellable = true)
     private void cancelDamageOnly(ServerLevel level, DamageSource source, float dmg, CallbackInfo ci) {
         Player player = (Player)(Object)this;
-        if (PlayerCubeUtil.hasHandItem(player)) return;
+        if (!PlayerCubeUtil.hasHandItem(player)) return;
 
-        if (sulfurcubed$isImmuneSource(source, player)) ci.cancel();
-    }
-
-    @Unique
-    private static boolean sulfurcubed$isImmuneSource(DamageSource source, Player player) {
-        return source.is(DamageTypeTags.SULFUR_CUBE_WITH_BLOCK_IMMUNE_TO)
-            || (Config.shouldTransform(player) && source.is(DamageTypes.IN_WALL));
-        // Prevent suffocation if Sulfur Cube Player hitbox is in a block to prevent accidental deaths
+        if (PlayerCubeUtil.isImmuneToSource(source, player)) ci.cancel();
     }
 }

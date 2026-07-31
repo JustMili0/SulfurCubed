@@ -1,8 +1,12 @@
 package net.justmili.sulfurcubed.content.util;
 
+import net.justmili.sulfurcubed.config.Config;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.SulfurCubeArchetype;
@@ -59,13 +63,14 @@ public class PlayerCubeUtil {
         return !player.getInventory().getItem(4).isEmpty();
     }
 
-    // Players override LivingEntity#playSound to play the sound to everyone but themselves, so the client doesn't end up hearing
-    // the same sound twice. onItemPickup and drop only run on the server, so we need to make sure we can hear it too.
     public static void makeSound(Player player, SoundEvent sound) {
-        // just to be safe.
-        if (player.level().isClientSide())
-            return;
+        if (player.level().isClientSide()) return;
 
         player.level().playSound(null, player, sound, player.getSoundSource(), 1f, 1f);
+    }
+    public static boolean isImmuneToSource(DamageSource source, Player player) {
+        return source.is(DamageTypeTags.SULFUR_CUBE_WITH_BLOCK_IMMUNE_TO)
+            || (Config.shouldTransform(player) && source.is(DamageTypes.IN_WALL));
+        // Prevent suffocation if Sulfur Cube Player hitbox is in a block to prevent accidental deaths
     }
 }
