@@ -1,6 +1,8 @@
 package net.justmili.sulfurcubed.content.util;
 
+import net.justmili.libs.v1.utils.FdaUtil;
 import net.justmili.sulfurcubed.config.Config;
+import net.justmili.sulfurcubed.content.variables.SCAttachments;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
@@ -14,13 +16,15 @@ import net.minecraft.world.entity.SulfurCubeArchetypes;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
 public class PlayerCubeUtil {
     public static final EntityDimensions HITBOX = EntityTypes.SULFUR_CUBE.getDimensions();
     public static final float HITBOX_WIDTH = HITBOX.width() * 2;
-    public static final float HITBOX_HEIGHT = HITBOX.height() *2;
+    public static final float HITBOX_HEIGHT = HITBOX.height() * 2;
+    public static boolean floatsInLiquids = false;
 
     public static List<SulfurCubeArchetype.AttributeEntry> attributeModifiers(Player player) {
         return lookupForHeld(player).attributeModifiers();
@@ -54,10 +58,22 @@ public class PlayerCubeUtil {
     }
 
     public static SulfurCubeArchetype lookupForHeld(Player player) {
+        var currentItem = player.getMainHandItem();
+
+        if (ItemStack.isSameItem(
+            FdaUtil.get(player, SCAttachments.LAST_KNOWN_STACK, ItemStack.EMPTY), currentItem)
+            && FdaUtil.has(player, SCAttachments.LAST_ARCHETYPE)
+        ) return FdaUtil.get(player, SCAttachments.LAST_ARCHETYPE);
+
         var registry = player.level().registryAccess();
-        return registry.lookupOrThrow(Registries.SULFUR_CUBE_ARCHETYPE).stream()
-            .filter(arch -> player.getMainHandItem().is(arch.items()))
+        var archetype = registry.lookupOrThrow(Registries.SULFUR_CUBE_ARCHETYPE).stream()
+            .filter(arch -> currentItem.is(arch.items()))
             .findFirst().orElse(registry.getOrThrow(SulfurCubeArchetypes.REGULAR).value());
+
+        FdaUtil.set(player, SCAttachments.LAST_KNOWN_STACK, currentItem);
+        FdaUtil.set(player, SCAttachments.LAST_ARCHETYPE, archetype);
+
+        return archetype;
     }
     public static boolean hasHandItem(Player player) {
         return !player.getInventory().getItem(4).isEmpty();
@@ -72,5 +88,12 @@ public class PlayerCubeUtil {
         return source.is(DamageTypeTags.SULFUR_CUBE_WITH_BLOCK_IMMUNE_TO)
             || (Config.shouldTransform(player) && source.is(DamageTypes.IN_WALL));
         // Prevent suffocation if Sulfur Cube Player hitbox is in a block to prevent accidental deaths
+    }
+    public static boolean isBuoyant(Player player) {
+        if (lookupForHeld(player).buoyant()) {
+            floatsInLiquids = true;
+            return true;
+        }
+        return false;
     }
 }
