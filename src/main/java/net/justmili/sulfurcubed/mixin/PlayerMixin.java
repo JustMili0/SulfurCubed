@@ -51,11 +51,11 @@ public class PlayerMixin {
         Player player = (Player)(Object)this;
         if (PlayerCubeUtil.hasHandItem(player)) return;
 
-        if (isImmuneSource(source, player)) ci.cancel();
+        if (sulfurcubed$isImmuneSource(source, player)) ci.cancel();
     }
 
     @Unique
-    private static boolean isImmuneSource(DamageSource source, Player player) {
+    private static boolean sulfurcubed$isImmuneSource(DamageSource source, Player player) {
         return source.is(DamageTypeTags.SULFUR_CUBE_WITH_BLOCK_IMMUNE_TO)
             || (Config.shouldTransform(player) && source.is(DamageTypes.IN_WALL));
         // Prevent suffocation if Sulfur Cube Player hitbox is in a block to prevent accidental deaths
