@@ -9,9 +9,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,7 +23,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
-public class PlayerMixin {
+public abstract class PlayerMixin extends LivingEntity {
+
+    protected PlayerMixin(EntityType<? extends LivingEntity> type, Level level) {
+        super(type, level);
+    }
 
     // Replace sounds
     @Inject(method = "getHurtSound", at = @At("RETURN"), cancellable = true)
@@ -52,5 +59,17 @@ public class PlayerMixin {
         if (!PlayerCubeUtil.hasHandItem(player)) return;
 
         if (PlayerCubeUtil.isImmuneToSource(source, player)) ci.cancel();
+    }
+
+    // Don't deal default knockback to allow LivingEntityMixin.handleSulfurCubeKnockback do its thing
+    @Inject(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;removeEntitiesOnShoulder()V"), cancellable = true)
+    private void dontDealDefaultKnockback(ServerLevel level, DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
+        if (source.is(DamageTypeTags.SULFUR_CUBE_WITH_BLOCK_IMMUNE_TO)) {
+            if (!source.is(DamageTypeTags.NO_KNOCKBACK)) {
+                this.dealDefaultKnockback(source, damage, true);
+            }
+
+            cir.setReturnValue(true);
+        }
     }
 }

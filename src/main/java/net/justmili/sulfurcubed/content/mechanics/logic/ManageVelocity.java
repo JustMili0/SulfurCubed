@@ -1,6 +1,8 @@
 package net.justmili.sulfurcubed.content.mechanics.logic;
 
 import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
@@ -67,6 +69,7 @@ public class ManageVelocity {
             deltaMovement.z - horizontalKnockback.z);
 
         PlayerCubeUtil.makeSound(player, hitSound.value());
+        if (player instanceof ServerPlayer serverPlayer) serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(player));
 
         return true;
     }
