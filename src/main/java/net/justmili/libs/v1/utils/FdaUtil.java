@@ -49,12 +49,12 @@ public class FdaUtil {
         return target.hasAttached(variable);
     }
 
-    //Creates values that will clear after a restart
+    // Creates values that will clear after a restart
     public static <T> AttachmentType<T> create(Identifier id, T defaultValue) {
         return AttachmentRegistry.create(id, builder -> builder.initializer(() -> defaultValue).copyOnDeath());
     }
 
-    //Creates values that will NOT clear after a restart
+    // Creates values that will NOT clear after a restart
     public static <T> AttachmentType<T> createPersistent(Identifier id, T defaultValue, Codec<T> codec) {
         return AttachmentRegistry.create(id, builder -> builder.initializer(() -> defaultValue).copyOnDeath().persistent(codec));
     }
