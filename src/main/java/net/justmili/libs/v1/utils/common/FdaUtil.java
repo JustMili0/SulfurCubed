@@ -1,4 +1,4 @@
-package net.justmili.libs.v1.utils;
+package net.justmili.libs.v1.utils.common;
 
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;

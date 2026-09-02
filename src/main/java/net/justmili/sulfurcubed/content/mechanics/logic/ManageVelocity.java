@@ -1,6 +1,6 @@
 package net.justmili.sulfurcubed.content.mechanics.logic;
 
-import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
+import net.justmili.sulfurcubed.util.PlayerCubeUtil;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;

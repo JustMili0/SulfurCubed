@@ -1,6 +1,6 @@
 package net.justmili.sulfurcubed.content.mechanics.logic;
 
-import net.justmili.libs.v1.utils.AttributeUtil;
+import net.justmili.libs.v1.utils.common.AttributeUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 

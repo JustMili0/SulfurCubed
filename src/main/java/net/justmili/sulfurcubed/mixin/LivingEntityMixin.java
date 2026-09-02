@@ -2,7 +2,7 @@ package net.justmili.sulfurcubed.mixin;
 
 import net.justmili.sulfurcubed.config.Config;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageVelocity;
-import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
+import net.justmili.sulfurcubed.util.PlayerCubeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;

@@ -2,7 +2,7 @@ package net.justmili.sulfurcubed.mixin;
 
 import net.justmili.sulfurcubed.config.Config;
 import net.justmili.sulfurcubed.content.mechanics.logic.LockSlots;
-import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
+import net.justmili.sulfurcubed.util.PlayerCubeUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

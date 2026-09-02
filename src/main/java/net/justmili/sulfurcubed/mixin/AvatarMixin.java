@@ -1,7 +1,7 @@
 package net.justmili.sulfurcubed.mixin;
 
 import net.justmili.sulfurcubed.config.Config;
-import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
+import net.justmili.sulfurcubed.util.PlayerCubeUtil;
 import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;

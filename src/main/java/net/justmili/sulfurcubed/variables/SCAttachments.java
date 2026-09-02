@@ -1,7 +1,7 @@
-package net.justmili.sulfurcubed.content.variables;
+package net.justmili.sulfurcubed.variables;
 
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
-import net.justmili.libs.v1.utils.FdaUtil;
+import net.justmili.libs.v1.utils.common.FdaUtil;
 import net.justmili.sulfurcubed.SulfurCubed;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.SulfurCubeArchetype;

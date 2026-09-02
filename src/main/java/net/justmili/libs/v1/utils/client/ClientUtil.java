@@ -1,4 +1,4 @@
-package net.justmili.libs.v1.utils;
+package net.justmili.libs.v1.utils.client;
 
 import com.mojang.blaze3d.platform.Window;
 import net.fabricmc.api.EnvType;

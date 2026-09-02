@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityRenderLayerRegistrationCallback;
-import net.justmili.libs.v1.utils.ClientUtil;
+import net.justmili.libs.v1.utils.client.ClientUtil;
 import net.justmili.sulfurcubed.client.render.SCAnimations;
 import net.justmili.sulfurcubed.client.render.SCHeldItem;
 import net.justmili.sulfurcubed.content.mechanics.logic.ManageInventory;

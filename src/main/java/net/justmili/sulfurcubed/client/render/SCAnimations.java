@@ -1,7 +1,7 @@
 package net.justmili.sulfurcubed.client.render;
 
 import net.justmili.sulfurcubed.config.Config;
-import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
+import net.justmili.sulfurcubed.util.PlayerCubeUtil;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;

@@ -2,7 +2,7 @@ package net.justmili.sulfurcubed;
 
 import net.fabricmc.api.ModInitializer;
 import net.justmili.libs.v1.config.sync.fabric.SyncConfigCSPNetworking;
-import net.justmili.libs.v1.utils.ResourceUtil;
+import net.justmili.libs.v1.utils.common.ResourceUtil;
 import net.justmili.sulfurcubed.config.Config;
 import net.justmili.sulfurcubed.registries.EventRegistry;
 import net.minecraft.resources.Identifier;

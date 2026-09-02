@@ -1,4 +1,4 @@
-package net.justmili.libs.v1.utils;
+package net.justmili.libs.v1.utils.client;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

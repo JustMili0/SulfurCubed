@@ -1,7 +1,7 @@
 package net.justmili.sulfurcubed.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import net.justmili.libs.v1.utils.RenderStateUtil;
+import net.justmili.libs.v1.utils.client.RenderStateUtil;
 import net.justmili.sulfurcubed.client.render.SCAnimations;
 import net.justmili.sulfurcubed.config.Config;
 import net.minecraft.client.player.AbstractClientPlayer;

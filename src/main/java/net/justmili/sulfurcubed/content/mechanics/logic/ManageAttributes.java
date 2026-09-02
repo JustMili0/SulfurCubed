@@ -2,14 +2,14 @@ package net.justmili.sulfurcubed.content.mechanics.logic;
 
 import net.justmili.sulfurcubed.SulfurCubed;
 import net.justmili.sulfurcubed.config.Config;
-import net.justmili.sulfurcubed.content.util.PlayerCubeUtil;
+import net.justmili.sulfurcubed.util.PlayerCubeUtil;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-import static net.justmili.libs.v1.utils.AttributeUtil.*;
+import static net.justmili.libs.v1.utils.common.AttributeUtil.*;
 
 public class ManageAttributes {
     public static void onPlayerTick(ServerPlayer player) {

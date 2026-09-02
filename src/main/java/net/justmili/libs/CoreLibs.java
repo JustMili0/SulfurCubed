@@ -1,6 +1,6 @@
 package net.justmili.libs;
 
-import net.justmili.libs.v1.utils.ResourceUtil;
+import net.justmili.libs.v1.utils.common.ResourceUtil;
 import net.minecraft.resources.Identifier;
 
 public class CoreLibs {

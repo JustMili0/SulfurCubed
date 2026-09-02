@@ -1,8 +1,8 @@
-package net.justmili.sulfurcubed.content.util;
+package net.justmili.sulfurcubed.util;
 
-import net.justmili.libs.v1.utils.FdaUtil;
+import net.justmili.libs.v1.utils.common.FdaUtil;
 import net.justmili.sulfurcubed.config.Config;
-import net.justmili.sulfurcubed.content.variables.SCAttachments;
+import net.justmili.sulfurcubed.variables.SCAttachments;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
